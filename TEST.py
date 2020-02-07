@@ -45,13 +45,13 @@ class AIPlayer(Player):
                 if score > alpha:
                     error(str(alpha)+" , "+str(beta))
                     alpha = score
-                    error("*"*20)
+                    error("#"*20)
                     error(str(alpha)+" , "+str(beta))
             elif player == self.p2_id: #minimize
                 if score < beta:
                     error(str(alpha)+" , "+str(beta))
                     beta = score
-                    error("*"*20)
+                    error("#"*20)
                     error(str(alpha)+" , "+str(beta))
 
         return player, alpha, beta, level, score
