@@ -21,8 +21,8 @@ class AIPlayer(Player):
         _, best_move = self.maximize(board, -inf, inf, 0)
         # error("BEST MOVE"+str(best_move))
         # warning(time.time() - t0)
-        print("#"*40)
-        print("#"*40 + "\n")
+        # print("#"*40)
+        # print("#"*40 + "\n")
         return best_move
 
 
@@ -46,10 +46,11 @@ class AIPlayer(Player):
                 alpha = new_alpha
                 best_move = col
             if level==1:
-                print('='*4)
-                print("BRANCH : %d" % col)
-                print("alpha, beta = %.0f, %.0f" % (alpha,beta) )
-                print()
+                pass
+                # print('='*4)
+                # print("BRANCH : %d" % col)
+                # print("alpha, beta = %.0f, %.0f" % (alpha,beta) )
+                # print()
 
         if best_move==None and level==1: error("I LOST")
         return alpha, best_move
@@ -92,10 +93,10 @@ class AIPlayer(Player):
     def test_win(self, list):
         for i in range(len(list)-3):
             if [self.p2_id]*4 == list[i:i+4]:
-                warning("ADV CHECKMATE")
+                # warning("ADV CHECKMATE")
                 return -inf
             elif [self.p1_id]*4 == list[i:i+4]:
-                warning("MY CHECKMATE")
+                # warning("MY CHECKMATE")
                 return inf
 
     def is_checkmate(self, board): # TODO when p1 finds checkmate he ignores p2 checkmates
