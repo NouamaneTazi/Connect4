@@ -5,7 +5,7 @@ import multiprocessing
 from board import Board
 from game import Game
 
-waitingtime=000
+waitingtime=200 #200
 class UIGame(Game):
     """Play the connect 4 game, but in a Tkinter GUI"""
     def __init__(self, player1, player2, dbg=None):

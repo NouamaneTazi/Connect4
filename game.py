@@ -60,9 +60,9 @@ class Game(object):
         else:
             print("It's a draw!")
 
-    @utils.timeout(1) #0.5
+    @utils.timeout(2) #0.5
     def getColumn(self, player):
-        sys.stdout = open(os.devnull, 'w')  # disables print
+        # sys.stdout = open(os.devnull, 'w')  # disables print
         return player.getColumn(copy.deepcopy(self.board))
 
     def run(self, randomStart=False):
