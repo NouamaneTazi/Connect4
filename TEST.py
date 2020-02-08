@@ -13,24 +13,25 @@ class AIPlayer(Player):
         self.p1_id = -1
         self.p2_id = 1
         self.ref_table = np.array([[3,4,5,7,5,4,3],[4,6,8,10,8,6,4],[5,8,11,13,11,8,5],[5,8,11,13,11,8,5],[4,6,8,10,8,6,4],[3,4,5,7,5,4,3]])
-        self.depth = 4
-        self.depth = 4
-        self.depth = 4
+        self.depth = 5
 
     def getColumn(self, board):
         _, best_move = self.maximize(board, -math.inf, math.inf, 0)
         # error("BEST MOVE = "+str(best_move))
+
         return best_move
 
 
     def maximize(self, board, alpha, beta, level):
         level+=1
+        best_move = None
         if level == self.depth:
             return self.get_score(board), None
-#rd.choice(possible_cols)
-        for col in board.getPossibleColumns(): # p1 moves TODO add shuffle
+        possible_cols = board.getPossibleColumns()
+        rd.shuffle(possible_cols)
+        for col in possible_cols: # p1 moves (o)
             if alpha >= beta:
-                return alpha
+                return alpha, best_move
             board_copy = deepcopy(board)
             board_copy.play(self.p1_id, col)
             new_alpha = self.minimize(board_copy, alpha, beta, level)
@@ -44,8 +45,9 @@ class AIPlayer(Player):
         level+=1
         if level == self.depth:
             return self.get_score(board)
-
-        for col in board.getPossibleColumns(): # p2 moves
+        possible_cols = board.getPossibleColumns()
+        rd.shuffle(possible_cols)
+        for col in possible_cols: # p2 moves (x)
             if alpha >= beta:
                 return beta
             board_copy = deepcopy(board)
@@ -72,12 +74,12 @@ class AIPlayer(Player):
                     score += self.ref_table[i,j]
                 elif list_board[j][i] == self.p2_id:
                     score -= self.ref_table[i,j]
-        # error(board)
-        # error(score)
+        # print(board)
+        # print(score)
         return score
 
     def test_win(self, list):
-        for i in range(len(list)-4):
+        for i in range(len(list)-3):
             if [1,1,1,1] == list[i:i+4]:
                 return -math.inf
             elif [-1,-1,-1,-1] == list[i:i+4]:

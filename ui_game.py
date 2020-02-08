@@ -87,6 +87,7 @@ class UIGame(Game):
         except Exception as e:
             reason = "{} throw an exception !".format(player.name)
             logging.error(reason)
+            logging.error(e)
             self.text = reason
             self.info.set(self.text)
             return self.mayMakeCurrentPlayerLoose()
