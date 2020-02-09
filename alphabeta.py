@@ -25,7 +25,6 @@ class AIPlayer(Player):
         # print("#"*40 + "\n")
         return best_move
 
-
     def maximize(self, board, alpha, beta, level):
         level+=1
         best_move = None

@@ -6,7 +6,7 @@ import sys
 import utils
 from board import Board
 
-
+timeout = 0.5 #0.5
 class Game(object):
     """Generic class to run a game."""
     def __init__(
@@ -18,6 +18,7 @@ class Game(object):
         self.verbose = verbose
         self.max_moves = 2 * self.board.num_rows * self.board.num_cols
         self.reset()
+
 
     def getWinner(self, pos):
         """Returns the player (boolean) who won, or None if nobody won"""
@@ -60,9 +61,9 @@ class Game(object):
         else:
             print("It's a draw!")
 
-    @utils.timeout(2) #0.5
+    @utils.timeout(timeout)
     def getColumn(self, player):
-        # sys.stdout = open(os.devnull, 'w')  # disables print
+        sys.stdout = open(os.devnull, 'w')  # disables print
         return player.getColumn(copy.deepcopy(self.board))
 
     def run(self, randomStart=False):
