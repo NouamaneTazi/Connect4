@@ -1,7 +1,7 @@
 import argparse
 from Projets.puissance4.Nouamane_TAZI_Marah_GAMDOU import AIPlayer as AI1
 from player import HumanPlayer, RandomPlayer
-from alphabeta import AIPlayer
+from alphabeta import AlphabetaPlayer
 # from test import AIPlayer as AI3
 from ui_game import UIGame
 

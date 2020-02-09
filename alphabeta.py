@@ -7,14 +7,14 @@ from logging import error, warning
 # import numpy as np
 # import time
 
-class AIPlayer(Player):
+class AlphabetaPlayer(Player):
 
-    def __init__(self):
+    def __init__(self, depth = 5, plays_first=True):
         self.name = ""
-        self.p1_id = -1 # -1 if 2nd player
-        self.p2_id = 1
+        self.p1_id = 1 if plays_first else -1 # -1 if 2nd player
+        self.p2_id = -1 if plays_first else 1
         self.ref_table = [[3,4,5,7,5,4,3],[4,6,8,10,8,6,4],[5,8,11,13,11,8,5],[5,8,11,13,11,8,5],[4,6,8,10,8,6,4],[3,4,5,7,5,4,3]]
-        self.depth = 5
+        self.depth = depth
 
     def getColumn(self, board):
         # t0 = time.time()
