@@ -1,5 +1,5 @@
 from player import Player
-from MCTS_agent import ConnectTree, MCTreeSearch
+from MCTS import Agent
 from alphabeta import AlphabetaPlayer
 # from board import Board
 from copy import deepcopy
@@ -20,16 +20,7 @@ class AIPlayer(Player):
 
     def getColumn(self, board):
         # t0 = time.time()
-        tree = MCTreeSearch(tag=1, exploration_factor=1)
-        for i in range(7):
-            num_vis = getattr(getattr(tree.play_tree, 'm' + str(i + 1)), 'num_visit')
-            num_w = getattr(getattr(tree.play_tree, 'm' + str(i + 1)), 'num_win')
-            print('-----------')
-            print('move:', i)
-            print('visits', num_vis)
-            print('wins', num_w)
-            moves = tree.available_moves(tree.play_tree.state)
-
+        Agent().train_mcts_ntimes(4)
         # error("BEST MOVE"+str(best_move))
         # warning(time.time() - t0)
 
