@@ -3,24 +3,25 @@ from player import Player
 from copy import deepcopy
 from random import shuffle
 from math import inf
-from logging import error, warning
+# from logging import error, warning
 # import numpy as np
-import time
+# import time
 
 class AlphabetaPlayer(Player):
 
-    def __init__(self, depth = 5, plays_first=True):
+    def __init__(self, max_level = 2, plays_first=True, heuristic=True):
         self.name = ""
         self.my_id = 1 if plays_first else -1 # -1 if 2nd player
         self.adv_id = -1 if plays_first else 1
         self.ref_table = [[3,4,5,7,5,4,3],[4,6,8,10,8,6,4],[5,8,11,13,11,8,5],[5,8,11,13,11,8,5],[4,6,8,10,8,6,4],[3,4,5,7,5,4,3]]
-        self.depth = depth
+        self.max_level = max_level
+        self.heuristic = heuristic
 
     def getColumn(self, board):
-        t0 = time.time()
+        # t0 = time.time()
         _, best_move = self.maximize(board, -inf, inf, 0)
         # error("BEST MOVE"+str(best_move))
-        warning(time.time() - t0)
+        # warning(time.time() - t0)
         # print("#"*40)
         # print("#"*40 + "\n")
         return best_move
@@ -28,7 +29,7 @@ class AlphabetaPlayer(Player):
     def maximize(self, board, alpha, beta, level):
         level+=1
         best_move = None
-        if level == self.depth:
+        if level == self.max_level:
             return self.get_score(board), None
         possible_cols = board.getPossibleColumns()
         shuffle(possible_cols)
@@ -37,7 +38,6 @@ class AlphabetaPlayer(Player):
                 return alpha, best_move
             board_copy = deepcopy(board)
             row = board_copy.play(self.my_id, col)
-            # checkmate = self.is_checkmate(board_copy)
             checkmate = self.getWinner(board_copy, (col,row))
             if checkmate:
                 return checkmate, col
@@ -52,13 +52,13 @@ class AlphabetaPlayer(Player):
                 # print("alpha, beta = %.0f, %.0f" % (alpha,beta) )
                 # print()
 
-        if best_move==None and level==1: error("I LOST")
+        # if best_move==None and level==1: print("I LOST")
         return alpha, best_move
 
 
     def minimize(self, board, alpha, beta, level):
         level+=1
-        if level == self.depth:
+        if level == self.max_level:
             return self.get_score(board)
         possible_cols = board.getPossibleColumns()
         shuffle(possible_cols)
@@ -67,7 +67,6 @@ class AlphabetaPlayer(Player):
                 return beta
             board_copy = deepcopy(board)
             row = board_copy.play(self.adv_id, col)
-            # checkmate = self.is_checkmate(board_copy)
             checkmate = self.getWinner(board_copy, (col,row))
             if checkmate:
                 return checkmate
@@ -80,12 +79,11 @@ class AlphabetaPlayer(Player):
 
     def get_score(self, board):
         # error(board)
+        if not self.heuristic: return 0
         list_board = board.board
-        score = 0
-        for i in range(board.num_rows):
-            for j in range(board.num_cols):
-                score += list_board[j][i] * self.ref_table[i][j] * self.my_id
-        return score
+        double_list = [[list_board[j][i] * self.ref_table[i][j] * self.my_id for i in range(board.num_rows)]
+                    for j in range(board.num_cols)]
+        return sum(sum(double_list,[]))
 
 
     def getWinner(self, board, pos):
@@ -114,38 +112,3 @@ class AlphabetaPlayer(Player):
             if curr[1] > best[1]:
                 best = curr
         return best
-
-
-    def test_win(self, list):
-        for i in range(len(list)-3):
-            if [self.adv_id]*4 == list[i:i+4]:
-                # warning("ADV CHECKMATE")
-                return -inf
-            elif [self.my_id]*4 == list[i:i+4]:
-                # warning("MY CHECKMATE")
-                return inf
-
-    def is_checkmate(self, board): # TODO when p1 finds checkmate he ignores p2 checkmates
-        for c in range(board.num_cols):
-            col = board.getCol(c)
-            val = self.test_win(col)
-            if val: return val
-
-        up = True
-        for shift in range(-2,4): # TODO generalize for num_cols
-            diag = board.getDiagonal(up,shift)
-            val = self.test_win(diag)
-            if val: return val
-
-        up = False
-        for shift in range(3,9): # Downwards diags
-            diag = board.getDiagonal(up,shift)
-            val = self.test_win(diag)
-            if val: return val
-
-        for r in range(board.num_rows):
-            row = board.getRow(r)
-            # print(row)
-            val = self.test_win(row)
-            if val: return val
-
