@@ -6,7 +6,7 @@ import sys
 import utils
 from board import Board
 
-timeout = 0.5 #0.5
+timeout = 10 #0.5
 class Game(object):
     """Generic class to run a game."""
     def __init__(
@@ -63,7 +63,7 @@ class Game(object):
 
     @utils.timeout(timeout)
     def getColumn(self, player):
-        sys.stdout = open(os.devnull, 'w')  # disables print
+        # sys.stdout = open(os.devnull, 'w')  # disables print
         return player.getColumn(copy.deepcopy(self.board))
 
     def run(self, randomStart=False):

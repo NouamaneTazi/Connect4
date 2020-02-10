@@ -3,6 +3,7 @@ from Projets.puissance4.Nouamane_TAZI_Marah_GAMDOU import AIPlayer as AI1
 from _MCTS import AIPlayer as AI2
 from player import HumanPlayer, RandomPlayer
 from alphabeta import AlphabetaPlayer
+from mctsplayer import MCTSPlayer
 # from test import AIPlayer as AI3
 from ui_game import UIGame
 
@@ -15,11 +16,12 @@ if __name__ == '__main__':
 
     # player1 = AI2()
     # player1 = HumanPlayer()
-    player1 = AlphabetaPlayer(plays_first=True)
+    # player1 = AlphabetaPlayer(plays_first=True)
+    player1 = MCTSPlayer(plays_first=True)
     player1.name = args.p1
-    # player2 = HumanPlayer()
+    player2 = HumanPlayer()
     # player2 = AlphabetaPlayer(plays_first=False)
-    player2=AI2()
+    # player2=AI2()
     player2.name = args.p2
 
     game = UIGame(player1, player2)
