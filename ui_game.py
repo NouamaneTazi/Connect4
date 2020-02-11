@@ -29,10 +29,11 @@ class UIGame(Game):
             self.tk, textvariable=self.info, font=("Helvetica", 16))
         self.infoLabel.grid(row=1, column=0, columnspan=2)
 
-        if dbg:
-            self.infoLabel = tkinter.Label(
-                self.tk, text=dbg, font=("Helvetica", 14))
-            self.infoLabel.grid(row=0, column=2, rowspan=3, sticky='n')
+        self.dbg = tkinter.StringVar()
+        self.dbgLabel = tkinter.Label(
+            self.tk, text=dbg, font=("Helvetica", 14))
+        self.dbgLabel.grid(row=0, column=0, columnspan=2)
+
 
         self.canvas = tkinter.Canvas(
             height=self.height, width=self.width)
@@ -111,7 +112,7 @@ class UIGame(Game):
         player = self.players[self.currPlayer]
         row = self.board.play(player.color, col)
         pos = (col, row)
-
+        self.dbg.set("Last col: %d" % col)
         # AI mistake ? not good. Skip your turn
         if pos in self.board:
             self.renderOne(col, row)

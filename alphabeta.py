@@ -9,7 +9,7 @@ from math import inf
 
 class AlphabetaPlayer(Player):
 
-    def __init__(self, max_level = 2, plays_first=True, heuristic=True):
+    def __init__(self, max_level = 5, plays_first=True, heuristic=True):
         self.name = ""
         self.my_id = 1 if plays_first else -1 # -1 if 2nd player
         self.adv_id = -1 if plays_first else 1

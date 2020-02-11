@@ -19,9 +19,9 @@ if __name__ == '__main__':
     # player1 = AlphabetaPlayer(plays_first=True)
     player1 = MCTSPlayer(plays_first=True)
     player1.name = args.p1
-    player2 = HumanPlayer()
-    # player2 = AlphabetaPlayer(plays_first=False)
+    # player2 = HumanPlayer()
+    player2 = AlphabetaPlayer(plays_first=False)
     # player2=AI2()
     player2.name = args.p2
 
-    game = UIGame(player1, player2)
+    game = UIGame(player1, player2, dbg=True)
