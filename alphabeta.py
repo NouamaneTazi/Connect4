@@ -8,9 +8,12 @@ from math import inf
 # import time
 
 class AlphabetaPlayer(Player):
-
+    """
+    Si l'ordi est suffisamment rapide, on peut tenter d'augmenter le max_level à 6
+    pour qu'il anticipe encore un autre coup
+    """
     def __init__(self, max_level = 5, plays_first=True, heuristic=True):
-        self.name = ""
+        self.name = "Nouamane Tazi"
         self.my_id = 1 if plays_first else -1 # -1 if 2nd player
         self.adv_id = -1 if plays_first else 1
         self.ref_table = [[3,4,5,7,5,4,3],[4,6,8,10,8,6,4],[5,8,11,13,11,8,5],[5,8,11,13,11,8,5],[4,6,8,10,8,6,4],[3,4,5,7,5,4,3]]
@@ -52,7 +55,9 @@ class AlphabetaPlayer(Player):
                 # print("alpha, beta = %.0f, %.0f" % (alpha,beta) )
                 # print()
 
-        # if best_move==None and level==1: print("I LOST")
+        if best_move==None and level==1:
+            # print("I LOST")
+            best_move = possible_cols[0]
         return alpha, best_move
 
 
